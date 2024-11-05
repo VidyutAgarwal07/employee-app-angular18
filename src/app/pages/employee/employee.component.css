@@ -1,0 +1,5 @@
+.btn:disabled {
+    cursor: not-allowed; /* Cursor style when disabled */
+    opacity: 0.6; /* Slightly transparent to indicate it's disabled */
+    /* You can add a border or other styles if needed */
+}
