@@ -6,7 +6,7 @@
             <!-- <h2>Employees</h2> -->
         </div>
         <div class="col-6 text-end">
-            <button class="btn btn-success" (click)="addEmployee()">Add New Employee</button>
+            <button class="btn btn-success" (click)="isFormVisible.set(true)">Add New Employee</button>
             <button class="btn btn-secondary m-1" (click)="isFormVisible.set(false)" [disabled]="!isFormVisible()">Close</button>
         </div>
     </div>
@@ -17,40 +17,43 @@
         <div class="row">
             <div class="col-md-6">
                 <label for="employeeName" class="form-label">Employee Name</label>
-                <input type="text" class="form-control" id="employeeName" placeholder="Enter employee name">
+                <input type="text" class="form-control" id="employeeName" [(ngModel)]="empObj.employeeName" name="employeeName" placeholder="Enter employee name">
             </div>
             <div class="col-md-6">
                 <label for="contactNo" class="form-label">Contact No</label>
-                <input type="text" class="form-control" id="contactNo" placeholder="Enter contact number">
+                <input type="text" class="form-control" id="contactNo" [(ngModel)]="empObj.contactNo" name="contactNo" placeholder="Enter contact number">
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <label for="emailId" class="form-label">Email</label>
-                <input type="email" class="form-control" id="emailId" placeholder="Enter email">
+                <input type="email" class="form-control" id="emailId" [(ngModel)]="empObj.emailId" name="emailId" placeholder="Enter email">
             </div>
             <div class="col-md-6">
                 <label for="deptId" class="form-label">Department</label>
-                <select id="deptId" class="form-select">
+                <select id="deptId" class="form-select" [(ngModel)]="empObj.deptId" name="deptId" >
                     <option selected>Select department</option>
                     <!-- Department options -->
+                     @for (item of parentDeptList(); track $index) {
+                        <option [value]="item.departmentId">{{item.departmentName}}</option>
+                     }
                 </select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password">
+                <input type="password" class="form-control" id="password"  [(ngModel)]="empObj.password" name="password" placeholder="Enter password">
             </div>
             <div class="col-md-6">
                 <label for="role" class="form-label">Role</label>
-                <input type="text" class="form-control" id="role" placeholder="Enter role">
+                <input type="text" class="form-control" id="role" [(ngModel)]="empObj.role" name="role" placeholder="Enter role">
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <label for="gender" class="form-label">Gender</label>
-                <select id="gender" class="form-select">
+                <select id="gender" class="form-select" [(ngModel)]="empObj.gender" name="gender">
                     <option selected>Select gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -59,7 +62,12 @@
             </div>
         </div>
         <div class="text-center p-3 m-2">
-        <button type="submit" class="btn btn-success">Submit</button>
+            @if(this.empObj.employeeId === 0){
+                <button type="submit" class="btn btn-success" (click)="addEmployee()">Add Employee</button>
+            }
+            @else {
+                <button type="submit" class="btn btn-warning" (click)="updateEmployee()">Update Employee</button>
+            }
         <button type="submit" class="btn btn-secondary m-1" (click)="isFormVisible.set(false)">Close</button>
         </div>
     </form>
@@ -89,7 +97,7 @@
             <!-- Data rows go here -->
              @for (item of empList(); track $index) {
                 <tr>
-                    <td>{{$index+1}}</td>
+                    <td>{{item.employeeId}}</td>
                     <td>{{item.employeeName}}</td>
                     <td>{{item.contactNo}}</td>
                     <td>{{item.emailId}}</td>
@@ -97,8 +105,8 @@
                     <td>{{item.role}}</td>
                     <td>{{item.gender}}</td>
                     <td class="text-center">
-                        <button class="btn btn-warning" (click)="onEdit()">edit</button>
-                        <button class="btn btn-danger m-2" (click)="onDelete(item)">delete</button>
+                        <button class="btn btn-warning" (click)="onEdit(item)">edit</button>
+                        <button class="btn btn-danger m-2" (click)="onDelete(item.employeeId)">delete</button>
                     </td>
                 </tr>
              }

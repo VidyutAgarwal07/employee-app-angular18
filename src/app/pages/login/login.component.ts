@@ -20,8 +20,6 @@ export class LoginComponent {
   }
 
   login() {
-    console.log('username', this.loginObj.username);
-    console.log('passsword', this.loginObj.password);
     if (this.loginObj.username === "" && this.loginObj.password === "") {
       this.router.navigateByUrl('dashboard');
     } else {
